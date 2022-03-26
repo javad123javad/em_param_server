@@ -49,19 +49,30 @@ void test_set_data()
 void test_get_data()
 {
     std::string data;
-    std::string key = "LED_BLUE_STATUS";
+    std::map<std::string, std::string>::iterator it;
     int32_t fret = -1;
-    fret = test_repo->get_data(key, data);
+    fret = test_repo->get_data("LED_BLUE_STATUS", data, &it);
     TEST_ASSERT_EQUAL(0, fret);
-    std::clog<<key<<"-->"<<data<<std::endl;
+    std::clog<<"[test_get_data]: "<<"LED_BLUE_STATUS"<<"-->"<<data<<std::endl;
+
+    fret = test_repo->get_data("LED_ORANGE_STATUS", data, &it);
+    TEST_ASSERT_EQUAL(0, fret);
+    std::clog<<"[test_get_data]: "<<"LED_BLUE_STATUS"<<"-->"<<data<<std::endl;
 }
 
 void test_del_data()
 {
     int32_t fret = -1;
 
-
+    fret = test_repo->del_data("LED_BLUE_STATUS");
     TEST_ASSERT_EQUAL(0, fret);
+//    fret = test_repo->del_data("LED_RED_STATUS");
+//    TEST_ASSERT_EQUAL(0, fret);
+}
+
+void test_show_data()
+{
+    test_repo->show_data();
 }
 
 int main()
@@ -71,7 +82,10 @@ int main()
     RUN_TEST(test_open_file);
     RUN_TEST(test_set_data);
     RUN_TEST(test_get_data);
-    RUN_TEST(test_del_data);
+    RUN_TEST(test_show_data);
+RUN_TEST(test_set_data);
+//    RUN_TEST(test_del_data);
+//    RUN_TEST(test_show_data);
     RUN_TEST(test_close_file);
     delete  test_repo;
     return UNITY_END();
