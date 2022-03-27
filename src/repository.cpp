@@ -169,6 +169,10 @@ int32_t repository::load_file_data()
 
 }
 
+/**
+ * @brief repository::update_file syncronize most current changes with the repository on disk
+ * @return 0 on success, further checks should be added.
+ */
 int32_t repository::update_file()
 {
     int32_t fret = 0;
@@ -189,6 +193,10 @@ int32_t repository::update_file()
 
 }
 
+/**
+ * @brief repository::show_data show all data in temporary map container
+ * @return 0 on succsess, further
+ */
 int32_t repository::show_data()
 {
     for(auto item:repo_data)

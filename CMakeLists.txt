@@ -13,5 +13,9 @@ add_executable(Clay_Assignment src/main.cpp src/repository.cpp inc/repository.h)
 target_link_libraries(Clay_Assignment al -pthread)
 
 install(TARGETS Clay_Assignment DESTINATION /usr/bin
+ LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+ ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ RUNTIME DESTINATION ${CMAKE_BINARY_DIR}
 
 )
