@@ -36,6 +36,9 @@ Or
 autoreconf -i && configure && make
 ```
 After successful compilation, the executable will be available in `src/Clay_Assignment`
+## Run Test
+To run tests, rum `make check` command
+
 
 ## Execute
 
