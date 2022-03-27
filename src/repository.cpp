@@ -7,6 +7,10 @@ repository::repository(std::string repo_name):
 
 }
 
+/**
+ * @brief repository::open_file open main repository file
+ * @return 0 on Success, -1 On Failure
+ */
 int32_t repository::open_file()
 {
     int32_t fret = 0;
@@ -24,6 +28,10 @@ int32_t repository::open_file()
 
 }
 
+/**
+ * @brief repository::close_file    close the repository read and write files
+ * @return always return 0, further chack can be added
+ */
 int32_t repository::close_file()
 {
     int32_t fret = 0;
@@ -34,6 +42,13 @@ int32_t repository::close_file()
 
 }
 
+/**
+ * @brief repository::set_data store/update the key/vallue in the storage
+ * @param key   The data key
+ * @param value The data value
+ * @param sync  If ture, the contents of temporary map will be saved into the file database
+ * @return 0 on success, -1 on failure
+ */
 int32_t repository::set_data(std::string key, std::string value, bool sync)
 {
     int32_t fret = -1; //TODO: Define proper err code
@@ -68,6 +83,11 @@ int32_t repository::set_data(std::string key, std::string value, bool sync)
 
 }
 
+/**
+ * @brief repository::del_data delete data from database
+ * @param key   the key to search and delete data
+ * @return 0 on success (data found and deleted), -1 otherwise
+ */
 int32_t repository::del_data(const std::string key)
 {
     int32_t fret = -1;
@@ -83,10 +103,16 @@ int32_t repository::del_data(const std::string key)
         fret = 0;
     }
 
-
     return fret;
 }
 
+/**
+ * @brief repository::get_data search database and get the data
+ * @param key       the key to search
+ * @param value     the returned value
+ * @param oit       the iterator to further actions
+ * @return 0 on success, -1 on failure or illegal input parameters
+ */
 int32_t repository::get_data(const std::string key,
                              std::string &value,
                              std::map<std::string, std::string>::iterator* oit)
@@ -116,6 +142,10 @@ int32_t repository::get_data(const std::string key,
 
 }
 
+/**
+ * @brief repository::load_file_data load the file data base into the RAM (map)
+ * @return 0 on success, -1 on failure
+ */
 int32_t repository::load_file_data()
 {
     std::string key, value;
