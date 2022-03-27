@@ -8,7 +8,7 @@ It's highly recommended to install `ALlib` as shared library, eventhough it's al
 ## Installing ALLib
 ```shell
 $ git clone git@github.com:javad123javad/ALlib.git
-$ cd Allib
+$ cd ALlib
 $ mkdir build
 $ cd build
 $ cmake -DBUILD_SHARED_LIBS=ON ..
