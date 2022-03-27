@@ -10,4 +10,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(test_repo)
 
 add_executable(Clay_Assignment src/main.cpp src/repository.cpp inc/repository.h)
-target_link_libraries(Clay_Assignment libal.a -pthread)
+target_link_libraries(Clay_Assignment al -pthread)
+
+install(TARGETS Clay_Assignment DESTINATION /usr/bin
+
+)
