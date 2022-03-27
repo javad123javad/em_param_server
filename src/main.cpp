@@ -3,43 +3,68 @@
 #include "inc/repository.h"
 #include <al.h>
 #include <thread>
+#include <mutex>
 
-#define AL_UNIX_FILE        "/tmp/alunix.sock"
 using namespace std;
 
-int32_t exec_cmd(repository & repo, std::string prompt)
+#define AL_UNIX_FILE        "/tmp/alunix.sock"
+static repository *g_repo;
+static mutex g_repo_mutex;
+
+int32_t exec_cmd(repository * repo, std::string command, std::string& out_value)
 {
     int fret = 0;
     string cmd, key, value;
     std::map<std::string, std::string>::iterator it;
 
-    stringstream stream_buf(prompt);
+    stringstream stream_buf(command);
     stream_buf >> cmd>>key>>value;
 
+    g_repo_mutex.lock();//Critical Section
 
     if("SET" == cmd)
     {
-        fret = repo.set_data(key, value);
+        fret = repo->set_data(key, value);
         if(0 == fret)
-            cout<<"OK"<<endl;
+        {
+//            cout<<"OK"<<endl;
+            out_value = "OK";
+
+        }
     }
     else if (cmd == "GET")
     {
-        fret = repo.get_data(key,value, &it);
+        fret = repo->get_data(key,value, &it);
         if(0 == fret)
-            cout<< it->second<<endl;
-
+        {
+//            cout<< it->second<<endl;
+            out_value = it->second;
+        }
     }
     else if(cmd == "DELETE")
     {
-        fret = repo.del_data(key);
+        fret = repo->del_data(key);
         if(0 == fret)
-            cout<<"OK"<<endl;
+        {
+//            cout<<"OK"<<endl;
+            out_value = "OK";
+        }
+    }
+    else if(cmd == "QUIT")
+    {
+        out_value = "BYE";
+        fret = -2;
     }
     else
     {
-        cerr<<"Illegal Command"<<endl;
+//        cerr<<"Illegal Command"<<endl;
+        out_value = "Invalid Command";
+
+        fret = -1;
     }
+
+    g_repo_mutex.unlock();
+    return fret;
 
 }
 
@@ -47,10 +72,15 @@ int32_t exec_cmd(repository & repo, std::string prompt)
 void server_cb(cpayload *payload)
 {
 
-    fprintf(stderr,"Callback: %s\n", payload->payload);
-    al_write_sock(payload->cli_sock, payload->payload, payload->payload_len);
+    if(strlen(payload->payload)>0)
+    {
+        string value;
+    exec_cmd(g_repo,string(payload->payload), value);
+//    fprintf(stderr,"Callback: cmd:%s key:%s value:%s\n", cmd.c_str(), key.c_str(), value.c_str());
+    al_write_sock(payload->cli_sock, value.c_str(), value.length());
+    }
 }
-void thr_cb(repository * repo)
+void thr_cb()
 {
     int32_t server_sock;
     int32_t fret;
@@ -71,18 +101,26 @@ void thr_cb(repository * repo)
 }
 int main()
 {
-
-    repository repo("test_repo.txt");
+    int32_t fret = 0;
+    g_repo = new repository("/tmp/test_repo.txt");
     string line;
+    string value;
+    std::thread ipc_thr( thr_cb);
+    ipc_thr.detach();
 
-    std::thread ipc_thr( thr_cb, &repo);
-
-    repo.open_file();
+    g_repo->open_file();
     while (1) {
         cout<<"> ";
         getline(cin, line);
-        exec_cmd(repo,line);
+        fret = exec_cmd(g_repo,line, value);
+        cout<<value<<endl;
+        if(-2 == fret)
+        {
+            break;
+        }
     }
+    g_repo->close_file();
+    delete g_repo;
 
 
 }
