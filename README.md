@@ -71,5 +71,22 @@ Enable following option in buildroot menu:
 * Target packages --> Debugging, profiling and benchmark --> Unity Test Framework
 * Target packages --> Filesystem and flash utilities --> CLAY2 Assignment
 * Target packages --> Libraries --> Networking --> ALlib
+Then make with `make` command
+To test the application:
+```shell
+$ cd output/images
+$ ./start-qemu.sh
+Welcome to Buildroot
+buildroot login: root
+# Clay_Assignment 
+Sock Open: Success
+> SET LED ON
+OK
+> GET LED
+ON
+> QUIT
+BYE
+# 
+```
 
 
