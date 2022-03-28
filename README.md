@@ -27,7 +27,7 @@ $ sudo make install
 ```
 
 ## Build
-imp_netman uses autohell to build the binary output. So, the instruction is straight forward:
+For this assignment Autohell build system is used to build the binary output. So, the instruction is straight forward:
 ```shell
 ./autogen.sh && configure && make
 ```
@@ -36,7 +36,25 @@ Or
 autoreconf -i && configure && make
 ```
 After successful compilation, the executable will be available in `src/Clay_Assignment`
+## Run Tests
+To run the tests, you can use `make check`
+```shell
+$ make check
+PASS: test_repo
+============================================================================
+Testsuite summary for Clay_Assignment 1.0.1
+============================================================================
+# TOTAL: 1
+# PASS:  1
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  0
+# XPASS: 0
+# ERROR: 0
+============================================================================
 
+```
+Full test log is available in `tests/*.log`
 ## Execute
 
 The binary is in `<clay directory>/src`:
