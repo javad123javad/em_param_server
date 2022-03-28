@@ -8,7 +8,7 @@ It's highly recommended to install `ALlib` as shared library, eventhough it's al
 ## Installing ALLib
 ```shell
 $ git clone git@github.com:javad123javad/ALlib.git
-$ cd ALlib
+$ cd Allib
 $ mkdir build
 $ cd build
 $ cmake -DBUILD_SHARED_LIBS=ON ..
@@ -36,9 +36,6 @@ Or
 autoreconf -i && configure && make
 ```
 After successful compilation, the executable will be available in `src/Clay_Assignment`
-## Run Test
-To run tests, rum `make check` command
-
 
 ## Execute
 
@@ -58,4 +55,21 @@ OK
 > QUIT
 BYE
 ```
+
+# Configure Buildroot build
+To make the embedded version of this assignment, please clone `Clay` branch from my cloned repository of `buildroot`
+```shell
+$ git clone -b Clay https://github.com/javad123javad/buildroot.git
+```
+Then load one of the configuration from `configs` directory
+```shell
+$ make qemu_arm_versatile_defconfig
+```
+Enable following option in buildroot menu:
+* Toolchain -->  Enable WCHAR support 
+* Toolchain -->  Enable C++ support
+* Target packages --> Debugging, profiling and benchmark --> Unity Test Framework
+* Target packages --> Filesystem and flash utilities --> CLAY2 Assignment
+* Target packages --> Libraries --> Networking --> ALlib
+
 
