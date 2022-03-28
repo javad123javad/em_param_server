@@ -42,7 +42,7 @@ void test_srv_accept()
 
 void test_cli_write()
 {
-    const char test_str[] = "GET GPS\n";
+    const char test_str[] = "SET GPS ON\n";
 
     TEST_ASSERT_EQUAL(strlen(test_str),
                       al_write_sock(cli_sock, test_str, strlen(test_str)));

@@ -44,8 +44,8 @@ PASS: test_repo
 ============================================================================
 Testsuite summary for Clay_Assignment 1.0.1
 ============================================================================
-# TOTAL: 1
-# PASS:  1
+# TOTAL: 2
+# PASS:  2
 # SKIP:  0
 # XFAIL: 0
 # FAIL:  0
@@ -55,6 +55,8 @@ Testsuite summary for Clay_Assignment 1.0.1
 
 ```
 Full test log is available in `tests/*.log`
+* To run the IPC client `unix_cli_test` test, the main appliction should be running. 
+
 ## Execute
 
 The binary is in `<clay directory>/src`:
@@ -106,5 +108,6 @@ ON
 BYE
 # 
 ```
-
-
+# IPC mechanism
+Unix domain socket has been used to give access to other processes for controlling the database. The `tests/unix_cli_test.cpp` is a simple IPC client to connect to the server and send/receive commands with the main application.
+To run it you can run `make check` or directly call the executable from the tests directory 
